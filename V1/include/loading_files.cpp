@@ -40,10 +40,48 @@ vector<vector<float>> LoadXYZFile(const string &filename)
 
     return data;
 }
+vector<vector<float>> LoadTXTFile(const string &filename)
+{
+    ifstream file(filename);
+    vector<vector<float>> data;
+
+    if (!file.is_open())
+    {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+        return data;
+    }
+
+    string line;
+    int i = 0;
+    vector<float> row;
+    while (getline(file, line))
+    {
+
+        stringstream ss(line);
+        float value;
+        while (ss >> value)
+        {
+            row.push_back(value);
+        }
+
+        if (i == 2)
+        {
+            data.push_back(row);
+            i = 0;
+            row.clear();
+        }
+        else
+        {
+            i++;
+        }
+    }
+
+    return data;
+}
 
 int main()
 {
-    auto data = LoadXYZFile("pig.xyz");
+    auto data = LoadTXTFile("test1_2mm.txt");
 
     for (const auto &row : data)
     {
