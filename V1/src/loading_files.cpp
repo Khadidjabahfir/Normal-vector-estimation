@@ -79,18 +79,4 @@ vector<vector<float>> LoadTXTFile(const string &filename)
     return data;
 }
 
-int main()
-{
-    auto data = LoadTXTFile("test1_2mm.txt");
 
-    for (const auto &row : data)
-    {
-        for (const auto &val : row)
-        {
-            std::cout << val << "  ";
-        }
-        std::cout << std::endl;
-    }
-
-    return 0;
-}
