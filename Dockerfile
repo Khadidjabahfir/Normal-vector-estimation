@@ -15,10 +15,12 @@ COPY . /app/
 
 # Install Python dependencies
 RUN pip install flask flask-cors
+RUN make 
 
 # Make scripts executable
 RUN chmod +x ./interface/server.py
 RUN chmod +x ./entrypoint.sh
+RUN chmod +x main
 
 # Use the PORT environment variable that Render provides
 EXPOSE $PORT
