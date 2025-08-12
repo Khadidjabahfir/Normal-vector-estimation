@@ -230,20 +230,64 @@ std::vector<PlanarPlan> final_version_normal_vector_estimation(
 
     return merged_plans;
 }
+vector<vector<float>> ReadFromWebInput()
+{
+    string input;
+    std::getline(std::cin, input);
+
+    vector<vector<float>> data;
+    vector<float> row;
+    string num;
+    bool insideNumber = false;
+
+    for (char c : input)
+    {
+        if ((c >= '0' && c <= '9') || c == '.' || c == '-' || c == 'e')
+        {
+            num += c;
+            insideNumber = true;
+        }
+        else
+        {
+            if (insideNumber)
+            {
+                row.push_back(std::stof(num));
+                num.clear();
+                insideNumber = false;
+            }
+            if (c == '}' || c == ']')
+            {
+                if (!row.empty())
+                {
+                    data.push_back(row);
+                    row.clear();
+                }
+            }
+        }
+    }
+
+    return data;
+}
 
 int main()
 {
+    vector<vector<float>> data = ReadFromWebInput();
+    if (data.empty())
+    {
+        std::cerr << "No data provided." << std::endl;
+        return 1;
+    }
     std::vector<std::vector<float>> X = {
         {0, 0, 0}, {1, 0, 0}, {2, 0, 0}, {0, 1, 0}, {1, 1, 0}, {2, 1, 0}, {0, 0, 1}, {1, 0, 1}, {2, 0, 1}, {0, 1, 1}, {1, 1, 1}, {2, 1, 1}};
 
     std::vector<float> y = {0.0f, 1.0f, 2.0f};
 
     KnnAlgorithm nneighbors = KnnAlgorithm(3);
-    nneighbors.fit(X, y);
+    nneighbors.fit(data, y);
 
     vector<int> results = SortByDensity(nneighbors.neighbor_distances, 3);
 
-    std::map<int, PlanarPlan> planar_map = planar_segmentation_version_4(X, nneighbors.neighbor_indices, 3, 2.0f);
+    std::map<int, PlanarPlan> planar_map = planar_segmentation_version_4(data, nneighbors.neighbor_indices, 3, 2.0f);
 
     for (const auto &plan : planar_map)
     {
@@ -259,17 +303,15 @@ int main()
         std::cout << "Planarity Score: " << plan.second.planarity_score << "\n\n";
     }
 
-    vector<PlanarPlan> merged = final_version_normal_vector_estimation(X, nneighbors.neighbor_indices, 3, 2.0f, 5.0f);
+    // vector<PlanarPlan> merged = final_version_normal_vector_estimation(data, nneighbors.neighbor_indices, 3, 2.0f, 5.0f);
 
-    for (const auto &plan : merged)
-    {
-        cout << plan.eigen_vector.transpose() << endl;
-        for (const auto &point : plan.points)
-        {
-            std::cout << "(" << point[0] << ", " << point[1] << ", " << point[2] << ")\n";
-        }
-        cout << "----\n";
-    }
-
-    return 0;
+    // for (const auto &plan : merged)
+    // {
+    //     cout << plan.eigen_vector.transpose() << endl;
+    //     for (const auto &point : plan.points)
+    //     {
+    //         std::cout << "(" << point[0] << ", " << point[1] << ", " << point[2] << ")\n";
+    //     }
+    //     cout << "----\n";
+    // }
 }

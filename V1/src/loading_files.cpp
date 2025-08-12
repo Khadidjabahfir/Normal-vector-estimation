@@ -78,5 +78,3 @@ vector<vector<float>> LoadTXTFile(const string &filename)
 
     return data;
 }
-
-
