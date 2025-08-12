@@ -32,5 +32,8 @@ def run_cpp():
     })
 
 if __name__ == "__main__":
-    app.run(debug= True )
+    port = int(os.environ.get('PORT', 10000))
+    
+    # CRITICAL: Bind to 0.0.0.0, not 127.0.0.1
+    app.run(host='0.0.0.0', port=port, debug=False)
 
