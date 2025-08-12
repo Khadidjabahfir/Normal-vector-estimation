@@ -84,7 +84,7 @@
             document.getElementById('output').innerText = "Running, please wait...";
 
             try {
-                const response = await fetch('http://127.0.0.1:5000/run_cpp', {
+                const response = await fetch('https://normal-vector-estimation.onrender.com/run_cpp', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ points: pointsText }) // send raw string
