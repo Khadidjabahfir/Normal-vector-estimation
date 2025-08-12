@@ -24,7 +24,7 @@ def run_cpp():
 
 
     result = subprocess.run(
-        ["../main"], 
+        ["./main"], 
         input=input_data.encode(), 
         stdout=subprocess.PIPE, 
         stderr=subprocess.PIPE
