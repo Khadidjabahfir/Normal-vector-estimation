@@ -23,6 +23,4 @@ COPY . /app/
 
 
 EXPOSE 5000
-
-
-CMD ["python", "./interface/server.py"]
+ENTRYPOINT [ "entrypoint.sh" ]
