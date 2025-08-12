@@ -10,12 +10,13 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
+RUN make 
 # Copy files first
 COPY . /app/
 
 # Install Python dependencies
 RUN pip install flask flask-cors
-RUN make 
+
 
 # Make scripts executable
 RUN chmod +x ./interface/server.py
